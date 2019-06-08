@@ -66,10 +66,6 @@ public abstract class AbstractBinaryTreeNode<N extends AbstractBinaryTreeNode<N>
 		return name;
 	}
 
-	public String print() {
-		return "";
-	}
-
 	/**
 	 * The depth of the node is how many ancestor this node have. <br/>
 	 * <ul>
