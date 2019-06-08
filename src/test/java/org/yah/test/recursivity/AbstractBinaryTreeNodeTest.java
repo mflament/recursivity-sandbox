@@ -11,8 +11,14 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * "One test to rule them all"
+ */
 public abstract class AbstractBinaryTreeNodeTest<N extends AbstractBinaryTreeNode<N>> {
 
+	/**
+	 * A builder to create tree more easily
+	 */
 	protected final class TreeBuilder {
 
 		private final TreeBuilder parent;
@@ -74,6 +80,8 @@ public abstract class AbstractBinaryTreeNodeTest<N extends AbstractBinaryTreeNod
 	private Map<String, N> nodesMap;
 
 	/**
+	 * Here is the test tree (forgive my poor ASCII art skill)
+	 * 
 	 * <code>
 	 * 							A
 	 * 						   / \
@@ -100,6 +108,9 @@ public abstract class AbstractBinaryTreeNodeTest<N extends AbstractBinaryTreeNod
 			.build();
 	}
 
+	/**
+	 * let's the concrete test implementation create the node
+	 */
 	protected abstract N createNode(String name, N parent);
 
 	protected N node(String name) {
@@ -124,10 +135,25 @@ public abstract class AbstractBinaryTreeNodeTest<N extends AbstractBinaryTreeNod
 		assertEquals(Arrays.asList("A", "B", "D", "G", "E", "C", "F"), names);
 	}
 
+	/**
+	 * A silly test that make depthFirst visit on a tree that never stop to
+	 * grow.<br/>
+	 * The tree is the worst case possible : only one left leg.<br/>
+	 * 
+	 * We wait for {@link StackOverflowError} or {@link OutOfMemoryError} to stop
+	 * the pain and give the last depth that was successfully visited.<br/>
+	 * 
+	 * We also log the current depth each seconds in case you are too impatient to
+	 * wait for the maximum depth (I am).
+	 */
 	@Test
 	public void testMaxDepth() {
 		int startDepth = 1000;
+		// speed up the test by letting the implementation choose the depth increase
+		// between each test
 		int step = maxDepthTestStep();
+
+		// keep track of thge
 		N root = createNode("0", null);
 		N leaf = addDepth(root, startDepth);
 		long nextLog = System.currentTimeMillis() + 1000;
@@ -153,6 +179,10 @@ public abstract class AbstractBinaryTreeNodeTest<N extends AbstractBinaryTreeNod
 		}
 	}
 
+	/**
+	 * Let's the implementation choose the depth increase for testMaxDepth beetween
+	 * each try.
+	 */
 	protected abstract int maxDepthTestStep();
 
 	private N addDepth(N leaf, int depth) {
